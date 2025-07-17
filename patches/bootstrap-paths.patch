@@ -1,0 +1,22 @@
+--- a/bootstrap/app.php	1970-01-01 01:00:01
++++ b/bootstrap/app.php	2025-07-18 00:43:33
+@@ -15,6 +15,19 @@
+     $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
+ );
+ 
++// NIXACTYL: set certain paths from env
++$app->useBootstrapPath(
++    $_ENV['NIXACTYL_BOOTSTRAP_PATH'] ?? __DIR__
++);
++
++$app->useEnvironmentPath(
++    dirname($_ENV['NIXACTYL_ENV_PATH'] ?? __DIR__)
++);
++
++$app->loadEnvironmentFrom(
++    basename($_ENV['NIXACTYL_ENV_PATH'] ?? '.env')
++);
++
+ /*
+ |--------------------------------------------------------------------------
+ | Bind Important Interfaces

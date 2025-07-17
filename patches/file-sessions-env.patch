@@ -1,0 +1,11 @@
+--- a/config/session.php	1970-01-01 01:00:01
++++ b/config/session.php	2025-07-18 01:08:58
+@@ -58,7 +58,7 @@
+     |
+     */
+ 
+-    'files' => storage_path('framework/sessions'),
++    'files' => env('LARAVEL_STORAGE_PATH', storage_path()) . '/framework/sessions',
+ 
+     /*
+     |--------------------------------------------------------------------------
