@@ -6,15 +6,15 @@
  
 +// NIXACTYL: set certain paths from env
 +$app->useBootstrapPath(
-+    $_ENV['NIXACTYL_BOOTSTRAP_PATH'] ?? __DIR__
++    $_ENV['NIXACTYL_BOOTSTRAP_PATH'] ?? $_SERVER['NIXACTYL_BOOTSTRAP_PATH'] ?? __DIR__
 +);
 +
 +$app->useEnvironmentPath(
-+    dirname($_ENV['NIXACTYL_ENV_PATH'] ?? __DIR__)
++    dirname($_ENV['NIXACTYL_ENV_PATH'] ?? $_SERVER['NIXACTYL_ENV_PATH'] ?? __DIR__)
 +);
 +
 +$app->loadEnvironmentFrom(
-+    basename($_ENV['NIXACTYL_ENV_PATH'] ?? '.env')
++    basename($_ENV['NIXACTYL_ENV_PATH'] ?? $_SERVER['NIXACTYL_ENV_PATH'] ?? '.env')
 +);
 +
  /*
