@@ -15,8 +15,9 @@
         ./nixos-test.nix
         self.nixosModules.default
         {
-          virtualisation.vmVariant.virtualisation.host.pkgs =
-            nixpkgs.legacyPackages.aarch64-darwin;
+          virtualisation.vmVariant = {
+            virtualisation.host.pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+          };
         }
       ];
     };

@@ -15,6 +15,8 @@ in {
   options = {
     services.nixactyl = {
       enable = lib.mkEnableOption "Nixactyl";
+      artisanWrapper = lib.mkEnableOption "nixactyl-artisan wrapper program";
+
       version = lib.mkOption {
         type = lib.types.enum (builtins.attrNames versions);
         default = "latest";
@@ -26,10 +28,16 @@ in {
         default = versions."${cfg.version}";
       };
 
+      php = lib.mkOption {
+        type = lib.types.package;
+        default = pkgs.php;
+      };
+
       statefulDir = lib.mkOption {
         type = lib.types.str;
         example = "/var/ptero-data";
       };
+
       envFile = lib.mkOption {
         type = lib.types.str;
         default = "${cfg.statefulDir}/.env";
@@ -53,6 +61,7 @@ in {
   config = lib.mkIf cfg.enable {
     services.phpfpm.pools.nixactyl = {
       user = cfg.user;
+      phpPackage = cfg.php;
       settings = {
         "listen.owner" = cfg.user;
         "pm" = "dynamic";
@@ -141,6 +150,17 @@ in {
           '';
         };
       };
+    };
+
+    environment = lib.mkIf cfg.artisanWrapper {
+      systemPackages = [
+        (pkgs.writeShellApplication {
+          name = "nixactyl-artisan";
+          runtimeInputs = [ cfg.php ];
+          runtimeEnv = nixactylEnv;
+          text = ''exec php ${panel}/artisan "$@"'';
+        })
+      ];
     };
   };
 }

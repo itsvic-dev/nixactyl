@@ -1,7 +1,4 @@
 { config, pkgs, ... }: {
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
   services.getty.autologinUser = "test";
   users.users.test = {
     isNormalUser = true;
@@ -12,6 +9,7 @@
 
   services.nixactyl = {
     enable = true;
+    artisanWrapper = true;
     statefulDir = "/var/ptero-data";
 
     nginx = {
@@ -20,7 +18,14 @@
     };
   };
 
-  services.nginx = { enable = true; };
+  services.nginx.enable = true;
+
+  # services.xserver.enable = true;
+  # services.xserver.desktopManager.xfce.enable = true;
+  # services.xserver.displayManager.lightdm.enable = true;
+  # services.xserver.displayManager.lightdm.greeters.gtk.enable = true;
+
+  environment.systemPackages = [ pkgs.chromium ];
 
   system.stateVersion = "24.05";
 }
