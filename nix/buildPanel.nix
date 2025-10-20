@@ -1,6 +1,30 @@
-{ srcs, stdenv, runCommand, patch, php83Packages }:
+{ srcs, stdenv, runCommand, patch, php83Packages, yarnConfigHook, yarnBuildHook
+, fetchYarnDeps, nodejs }:
 let
-  builtPanel = if srcs.prebuiltAssets then srcs.src else { };
+  builtPanel = if srcs.prebuiltAssets then
+    srcs.src
+  else
+    stdenv.mkDerivation {
+      name = "pterodactyl-with-assets";
+      inherit (srcs) src version;
+
+      yarnOfflineCache = fetchYarnDeps {
+        yarnLock = srcs.src + "/yarn.lock";
+        hash = srcs.modulesHash;
+      };
+
+      yarnBuildScript = "build:production";
+
+      NODE_OPTIONS = "--openssl-legacy-provider";
+
+      installPhase = ''
+        mkdir -pv $out
+        cp -r . $out
+      '';
+
+      nativeBuildInputs = [ yarnConfigHook yarnBuildHook nodejs ];
+    };
+
   vendor = stdenv.mkDerivation {
     pname = "pterodactyl-vendor";
     inherit (srcs) src version;

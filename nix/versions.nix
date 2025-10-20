@@ -9,7 +9,7 @@ let
         hash = "sha256-0nOHtReVUVXYQY/glS4x0gkbhetoXSWg4rRwOJlkcM8=";
         stripRoot = false;
       };
-      vendorHash = "sha256-jAQPL9V3scXWnf7ulgJ56obuQN+4sSsKDsX4e6nJ5CQ=";
+      vendorHash = "sha256-b+h6D2MdT1cDF7B+V4qsNlr3SvHCXMnz2R0LW9YRUl8=";
       prebuiltAssets = true;
     };
   };

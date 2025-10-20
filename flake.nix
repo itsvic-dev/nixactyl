@@ -20,6 +20,8 @@
       in {
         checks = {
           starts = pkgs.callPackage ./nix/tests/starts.nix { inherit self; };
+          builds-assets =
+            pkgs.callPackage ./nix/tests/builds-assets.nix { inherit self; };
         };
       });
 }
