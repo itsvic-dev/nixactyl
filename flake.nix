@@ -9,6 +9,9 @@
   outputs = { self, nixpkgs, flake-utils }:
     {
       nixosModules.default = import ./nix/module.nix;
+
+      # run only Linux checks on Hydra. we don't have Darwin runners internally
+      hydraJobs = { inherit (self.checks) x86_64-linux aarch64-linux; };
     } // flake-utils.lib.eachDefaultSystem (system:
       let pkgs = nixpkgs.legacyPackages.${system};
       in {
