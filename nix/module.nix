@@ -35,6 +35,7 @@ in {
 
       statefulDir = lib.mkOption {
         type = lib.types.str;
+        default = "/var/lib/nixactyl";
         example = "/var/ptero-data";
       };
 
